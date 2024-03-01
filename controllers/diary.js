@@ -7,7 +7,7 @@ const { ctrlWrapper, HttpError } = require("../helpers");
 const getAllNotes = async (req, res) => {
 	const { _id } = req.user;
 
-	const notes = await Diary.findOne({ owner: _id });
+	const notes = await Diary.find({ owner: _id });
 	if (!notes) {
 		throw HttpError(404, "Notes not found");
 	}
