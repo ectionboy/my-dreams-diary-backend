@@ -43,10 +43,16 @@ const addNoteSchema = Joi.object({
 const deleteNoteSchema = Joi.object({
 	_id: Joi.string().required(),
 });
+const updateNoteSchema = Joi.object({
+	title: Joi.string(),
+	description: Joi.string(),
+	category: Joi.string().valid(...categories),
+});
 
 const schemas = {
 	addNoteSchema,
 	deleteNoteSchema,
+	updateNoteSchema,
 };
 
 const Diary = model("diary", diarySchema);

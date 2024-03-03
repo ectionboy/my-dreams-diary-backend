@@ -20,7 +20,6 @@ const getAllNotes = async (req, res) => {
 };
 
 const getAllCategories = async (req, res) => {
-
 	res.status(200).json({
 		categories,
 	});
@@ -64,9 +63,27 @@ const deleteNote = async (req, res) => {
 	res.status(200).json({ message: "Note deleted" });
 };
 
+// update
+const updateNote = async (req, res) => {
+	const { noteId } = req.params;
+
+	const result = await Diary.findById(noteId).exec();
+	if (!result || result.owner.toString() !== req.user._id.toString()) {
+		throw HttpError(404, "Not found");
+	}
+
+	const data = await Diary.findByIdAndUpdate(noteId, req.body, { new: true });
+	if (!data) {
+		throw HttpError(404, "Not found");
+	}
+
+	res.json(data);
+};
+
 module.exports = {
 	getAllNotes: ctrlWrapper(getAllNotes),
 	getAllCategories: ctrlWrapper(getAllCategories),
 	addNote: ctrlWrapper(addNote),
 	deleteNote: ctrlWrapper(deleteNote),
+	updateNote: ctrlWrapper(updateNote),
 };
