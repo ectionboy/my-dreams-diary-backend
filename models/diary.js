@@ -4,22 +4,30 @@ const Joi = require("joi");
 
 const { handleMongooseError } = require("../helpers");
 
+const categories = ["none", "electronics", "machinery", "technologies", "art"];
+
 const diarySchema = new Schema(
 	{
-        owner: {
-            type: Schema.Types.ObjectId,
-            ref: 'user',
-          },
+		owner: {
+			type: Schema.Types.ObjectId,
+			ref: "user",
+		},
 		description: {
 			type: String,
-            default: ""
+			default: "",
 		},
-        imgUrl: {
+		imgUrl: {
 			type: String,
 		},
-        title: {
+		title: {
 			type: String,
-            require: true,
+			require: true,
+		},
+		category: {
+			type: String,
+			require: true,
+			default: "none",
+			enum: categories,
 		},
 	},
 	{ versionKey: false, timestamps: true }
@@ -30,6 +38,7 @@ diarySchema.post("save", handleMongooseError);
 const addNoteSchema = Joi.object({
 	title: Joi.string().required(),
 	description: Joi.string(),
+	category: Joi.string().valid(...categories),
 });
 const deleteNoteSchema = Joi.object({
 	_id: Joi.string().required(),
@@ -37,7 +46,7 @@ const deleteNoteSchema = Joi.object({
 
 const schemas = {
 	addNoteSchema,
-    deleteNoteSchema,
+	deleteNoteSchema,
 };
 
 const Diary = model("diary", diarySchema);
