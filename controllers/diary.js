@@ -1,6 +1,6 @@
 const gravatar = require("gravatar");
 
-const { Diary } = require("../models/diary");
+const { Diary, categories } = require("../models/diary");
 
 const { ctrlWrapper, HttpError } = require("../helpers");
 
@@ -16,6 +16,13 @@ const getAllNotes = async (req, res) => {
 	res.status(200).json({
 		owner: _id,
 		notes,
+	});
+};
+
+const getAllCategories = async (req, res) => {
+
+	res.status(200).json({
+		categories,
 	});
 };
 
@@ -59,6 +66,7 @@ const deleteNote = async (req, res) => {
 
 module.exports = {
 	getAllNotes: ctrlWrapper(getAllNotes),
+	getAllCategories: ctrlWrapper(getAllCategories),
 	addNote: ctrlWrapper(addNote),
 	deleteNote: ctrlWrapper(deleteNote),
 };

@@ -5,6 +5,7 @@ const { authenticate, validateBody } = require("../../middlewares");
 const { schemas } = require("../../models/diary");
 
 router.get("/getAllNotes", authenticate,  ctrl.getAllNotes);
+router.get("/getAllCategories", authenticate,  ctrl.getAllCategories);
 router.post("/addNote", authenticate, validateBody(schemas.addNoteSchema),  ctrl.addNote);
 router.delete("/deleteNote/:noteId", authenticate,  ctrl.deleteNote);
 

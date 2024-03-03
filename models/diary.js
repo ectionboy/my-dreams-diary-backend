@@ -4,7 +4,7 @@ const Joi = require("joi");
 
 const { handleMongooseError } = require("../helpers");
 
-const categories = ["none", "electronics", "machinery", "technologies", "art"];
+const categories = ["None", "Electronics", "Machinery", "Technologies", "Art"];
 
 const diarySchema = new Schema(
 	{
@@ -54,4 +54,5 @@ const Diary = model("diary", diarySchema);
 module.exports = {
 	Diary,
 	schemas,
+	categories,
 };
