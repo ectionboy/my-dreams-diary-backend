@@ -18,7 +18,21 @@ const getAllNotes = async (req, res) => {
 		notes,
 	});
 };
+// getNotesById
+const getNoteById = async (req, res) => {
+	const { _id } = req.user;
+	const { noteId } = req.params;
 
+	const notes = await Diary.findOne({ owner: _id, _id: noteId });
+	if (!notes) {
+		throw HttpError(404, "Notes not found");
+	}
+
+	res.status(200).json({
+		owner: _id,
+		notes,
+	});
+};
 const getAllCategories = async (req, res) => {
 	res.status(200).json({
 		categories,
@@ -82,6 +96,7 @@ const updateNote = async (req, res) => {
 
 module.exports = {
 	getAllNotes: ctrlWrapper(getAllNotes),
+	getNoteById: ctrlWrapper(getNoteById),
 	getAllCategories: ctrlWrapper(getAllCategories),
 	addNote: ctrlWrapper(addNote),
 	deleteNote: ctrlWrapper(deleteNote),
