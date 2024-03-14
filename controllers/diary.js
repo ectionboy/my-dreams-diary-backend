@@ -23,14 +23,14 @@ const getNoteById = async (req, res) => {
 	const { _id } = req.user;
 	const { noteId } = req.params;
 
-	const notes = await Diary.findOne({ owner: _id, _id: noteId });
-	if (!notes) {
+	const note = await Diary.findOne({ owner: _id, _id: noteId });
+	if (!note) {
 		throw HttpError(404, "Notes not found");
 	}
 
 	res.status(200).json({
 		owner: _id,
-		notes,
+		note,
 	});
 };
 const getAllCategories = async (req, res) => {
